@@ -97,13 +97,7 @@ class CSPResNet(Model):
         kernel_regularizer=None,
     ):
         super(CSPResNet, self).__init__()
-        self.pre_conv = YOLOConv2D(
-            filters=filters_1,
-            kernel_size=3,
-            strides=2,
-            activation=activation,
-            kernel_regularizer=kernel_regularizer,
-        )
+        self.pre_conv = YOLOConv2D(filters=filters_1,kernel_size=3,strides=2,activation=activation,kernel_regularizer=kernel_regularizer,)
 
         # Do not change the order of declaration
         self.part2_conv = YOLOConv2D(
