@@ -100,41 +100,54 @@ class CSPResNet(Model):
         self.pre_conv = YOLOConv2D(filters=filters_1,kernel_size=3,strides=2,activation=activation,kernel_regularizer=kernel_regularizer,)
 
         # Do not change the order of declaration
-        self.part2_conv = YOLOConv2D(
-            filters=filters_2,
-            kernel_size=1,
-            activation=activation,
-            kernel_regularizer=kernel_regularizer,
-        )
+        self.part2_conv = YOLOConv2D(filters=filters_2, kernel_size=1, activation=activation, kernel_regularizer=kernel_regularizer,)
 
-        self.part1_conv1 = YOLOConv2D(
-            filters=filters_2,
-            kernel_size=1,
-            activation=activation,
-            kernel_regularizer=kernel_regularizer,
-        )
-        self.part1_res_block = ResBlock(
-            filters_1=filters_1 // 2,
-            filters_2=filters_2,
-            iteration=iteration,
-            activation=activation,
-            kernel_regularizer=kernel_regularizer,
-        )
-        self.part1_conv2 = YOLOConv2D(
-            filters=filters_2,
-            kernel_size=1,
-            activation=activation,
-            kernel_regularizer=kernel_regularizer,
-        )
+        self.part1_conv1 = YOLOConv2D(filters=filters_2, kernel_size=1, activation=activation, kernel_regularizer=kernel_regularizer,)
+
+        self.part1_res_block = ResBlock(filters_1=filters_1 // 2, filters_2=filters_2,  iteration=iteration, activation=activation, 
+                kernel_regularizer=kernel_regularizer,)
+
+        self.part1_conv2 = YOLOConv2D(filters=filters_2, kernel_size=1, activation=activation, kernel_regularizer=kernel_regularizer,)
 
         self.concat1_2 = layers.Concatenate(axis=-1)
 
-        self.post_conv = YOLOConv2D(
-            filters=filters_1,
-            kernel_size=1,
-            activation=activation,
-            kernel_regularizer=kernel_regularizer,
-        )
+        self.post_conv = YOLOConv2D(filters=filters_1,kernel_size=1,activation=activation,kernel_regularizer=kernel_regularizer,)
+
+        # self.part2_conv = YOLOConv2D(
+        #     filters=filters_2,
+        #     kernel_size=1,
+        #     activation=activation,
+        #     kernel_regularizer=kernel_regularizer,
+        # )
+
+        # self.part1_conv1 = YOLOConv2D(
+        #     filters=filters_2,
+        #     kernel_size=1,
+        #     activation=activation,
+        #     kernel_regularizer=kernel_regularizer,
+        # )
+        # self.part1_res_block = ResBlock(
+        #     filters_1=filters_1 // 2,
+        #     filters_2=filters_2,
+        #     iteration=iteration,
+        #     activation=activation,
+        #     kernel_regularizer=kernel_regularizer,
+        # )
+        # self.part1_conv2 = YOLOConv2D(
+        #     filters=filters_2,
+        #     kernel_size=1,
+        #     activation=activation,
+        #     kernel_regularizer=kernel_regularizer,
+        # )
+
+        # self.concat1_2 = layers.Concatenate(axis=-1)
+
+        # self.post_conv = YOLOConv2D(
+        #     filters=filters_1,
+        #     kernel_size=1,
+        #     activation=activation,
+        #     kernel_regularizer=kernel_regularizer,
+        # )
 
     def call(self, x):
         x = self.pre_conv(x)
@@ -175,90 +188,28 @@ class CSPDarknet53(Model):
         kernel_regularizer=None,
     ):
         super(CSPDarknet53, self).__init__(name="CSPDarknet53")
-        self.conv0 = YOLOConv2D(
-            filters=32,
-            kernel_size=3,
-            activation=activation0,
-            kernel_regularizer=kernel_regularizer,
-        )
+        
+        self.conv0 = YOLOConv2D(filters=32,kernel_size=3,activation=activation0,kernel_regularizer=kernel_regularizer,)
 
-        self.res_block1 = CSPResNet(
-            filters_1=64,
-            filters_2=64,
-            iteration=1,
-            activation=activation0,
-            kernel_regularizer=kernel_regularizer,
-        )
-        self.res_block2 = CSPResNet(
-            filters_1=128,
-            filters_2=64,
-            iteration=2,
-            activation=activation0,
-            kernel_regularizer=kernel_regularizer,
-        )
-        self.res_block3 = CSPResNet(
-            filters_1=256,
-            filters_2=128,
-            iteration=8,
-            activation=activation0,
-            kernel_regularizer=kernel_regularizer,
-        )
+        self.res_block1 = CSPResNet(filters_1=64,filters_2=64,iteration=1,activation=activation0,kernel_regularizer=kernel_regularizer,)
+        
+        self.res_block2 = CSPResNet(filters_1=128,filters_2=64,iteration=2,activation=activation0,kernel_regularizer=kernel_regularizer,)
+        
+        self.res_block3 = CSPResNet(filters_1=256,filters_2=128,iteration=8,activation=activation0,kernel_regularizer=kernel_regularizer,)
 
-        self.res_block4 = CSPResNet(
-            filters_1=512,
-            filters_2=256,
-            iteration=8,
-            activation=activation0,
-            kernel_regularizer=kernel_regularizer,
-        )
+        self.res_block4 = CSPResNet(filters_1=512,filters_2=256,iteration=8,activation=activation0,kernel_regularizer=kernel_regularizer,)
 
-        self.res_block5 = CSPResNet(
-            filters_1=1024,
-            filters_2=512,
-            iteration=4,
-            activation=activation0,
-            kernel_regularizer=kernel_regularizer,
-        )
+        self.res_block5 = CSPResNet(filters_1=1024,filters_2=512,iteration=4,activation=activation0,kernel_regularizer=kernel_regularizer,)
 
-        self.conv72 = YOLOConv2D(
-            filters=512,
-            kernel_size=1,
-            activation=activation1,
-            kernel_regularizer=kernel_regularizer,
-        )
-        self.conv73 = YOLOConv2D(
-            filters=1024,
-            kernel_size=3,
-            activation=activation1,
-            kernel_regularizer=kernel_regularizer,
-        )
-        self.conv74 = YOLOConv2D(
-            filters=512,
-            kernel_size=1,
-            activation=activation1,
-            kernel_regularizer=kernel_regularizer,
-        )
+        self.conv72 = YOLOConv2D(filters=512,kernel_size=1,activation=activation1,kernel_regularizer=kernel_regularizer,)
+        self.conv73 = YOLOConv2D(filters=1024,kernel_size=3,activation=activation1,kernel_regularizer=kernel_regularizer,)
+        self.conv74 = YOLOConv2D(filters=512,kernel_size=1,activation=activation1,kernel_regularizer=kernel_regularizer,)
 
         self.spp = SPP()
 
-        self.conv75 = YOLOConv2D(
-            filters=512,
-            kernel_size=1,
-            activation=activation1,
-            kernel_regularizer=kernel_regularizer,
-        )
-        self.conv76 = YOLOConv2D(
-            filters=1024,
-            kernel_size=3,
-            activation=activation1,
-            kernel_regularizer=kernel_regularizer,
-        )
-        self.conv77 = YOLOConv2D(
-            filters=512,
-            kernel_size=1,
-            activation=activation1,
-            kernel_regularizer=kernel_regularizer,
-        )
+        self.conv75 = YOLOConv2D(filters=512,kernel_size=1,activation=activation1,kernel_regularizer=kernel_regularizer,)
+        self.conv76 = YOLOConv2D(filters=1024,kernel_size=3,activation=activation1,kernel_regularizer=kernel_regularizer,)
+        self.conv77 = YOLOConv2D(filters=512,kernel_size=1,activation=activation1,kernel_regularizer=kernel_regularizer,)
 
     def call(self, x):
         x = self.conv0(x)
