@@ -98,7 +98,12 @@ class BaseClass:
 
     @classes.setter
     def classes(self, data: Union[str, dict]):
+        ## setter annotator works propertie annotator, this method  is called
+        ## if when we do yolo.classes = "coco.names"
+        ## this automaticallly loads the content of the file into the private attribute ._classes
+
         if isinstance(data, str):
+            print("cOUCOU")
             self._classes = media.read_classes_names(data)
         elif isinstance(data, dict):
             self._classes = data

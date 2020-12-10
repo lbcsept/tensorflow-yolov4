@@ -7,3 +7,9 @@ dist
 log
 venv
 yolov4.egg-info
+py_src/yolo_v4.tflite
+py_src/yolo_v4.weights.data-00000-of-00001
+py_src/yolo_v4.weights.index
+py_src/checkpoint
+yolov4.weights
+.gitignore

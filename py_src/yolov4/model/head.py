@@ -94,12 +94,14 @@ class YOLOv3Head(Model):
         )
 
     def call(self, x):
+        #. 3 heads concatenated in x : small, large, medium
         raw_s, raw_m, raw_l = x
 
         raw_s = self.reshape0(raw_s)
         raw_m = self.reshape1(raw_m)
         raw_l = self.reshape2(raw_l)
 
+        ## extract 
         txty_s, twth_s, conf_s, prob_s = tf.split(
             raw_s, (2, 2, 1, self.num_classes), axis=-1
         )
